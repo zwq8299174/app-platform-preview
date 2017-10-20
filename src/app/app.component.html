@@ -1,0 +1,59 @@
+<section class="platform-preview">
+	<div class="platform-toggle">
+		<a [ngClass]="{active: platform=='ios'}" (click)="setPlatform('ios')">iOS</a>
+		<a [ngClass]="{active: platform=='android'}" (click)="setPlatform('android')">Android</a>
+		<a [ngClass]="{active: platform=='windows'}" (click)="setPlatform('windows')">Windows</a>
+		<a [ngClass]="{active: platform=='iPhone'}" (click)="setPlatform('iPhone')">iPhone</a>
+	</div>
+	<div class="demo-devices">
+		<div [hidden]="platform=='iPhone'" class="device" [ngClass]="{'ios': platform=='ios','android':platform=='android','windows':platform=='windows'}">
+			<div class="device-wrapper">
+				<div class="statusbar fn-clear" [ngStyle]="statusbarStyle">
+					<img *ngIf="platform=='ios'||platform=='iPhone'" src="../assets/img/ios-statusbar.png" class="fn-left"/>
+					<img *ngIf="platform=='android'" src="../assets/img/android-statusbar.png" class="fn-left"/>
+					<img *ngIf="platform=='windows'" src="../assets/img/wp-statusbar.png" class="fn-left"/>
+				</div>
+				<iframe *ngIf="appUrl" [src]="appUrl" frameborder="0"></iframe>
+			</div>
+		</div>
+		<div [class]="'ios-device ' + deviceType.type" *ngIf="platform=='iPhone'">
+			<div class="device-wrapper">
+				<div class="statusbar fn-clear" [ngStyle]="statusbarStyle">
+					<img [hidden]="deviceType.name=='iPhone X'" src="../assets/img/ios-statusbar.png" class="fn-left"/>
+				</div>
+				<i class="icon-loading iconfont">&#xe62c;</i>
+				<iframe *ngIf="appUrl" [src]="appUrl" name="iPhone" #iPhone frameborder="0"></iframe>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="preview-setting">
+	<ul>
+		<li>
+			<div class="tag">
+				状态栏背景颜色:
+			</div>
+			<input placeholder="#fff" [(ngModel)]="statusbarBG">
+		</li>
+		<li>
+			<div class="tag">
+				预览应用地址:
+			</div>
+			<input type="text" [(ngModel)]="appHost" placeholder="请输入...">
+		</li>
+		<li *ngIf="platform=='iPhone'">
+			<div class="tag">
+				机型:
+			</div>
+			<div ngbDropdown class="d-inline-block" >
+				<button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{deviceType.name}}</button>
+				<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+					<button class="dropdown-item" *ngFor="let item of deviceTypeList" (click)="setDeviceType(item)">{{item.name}}</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<button type="button" name="button" class="submit" (click)="submit()">确定</button>
+		</li>
+	</ul>
+</section>
